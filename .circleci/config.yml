@@ -10,10 +10,14 @@ jobs:
           command: |
             echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV && source $BASH_ENV
             pip install --user -r requirements.txt
+            pip install --user pytest-cov codecov
       - run:
-          name: Run unit tests
+          name: Run unit tests with coverage
           command: |
-            pytest 
+            pytest --cov=./
+      - run:
+          name: Upload coverage to Codecov
+          command: codecov
       - store_test_results:
           path: test-reports
       - store_artifacts:
@@ -22,5 +26,3 @@ workflows:
   build_test:
     jobs:
       - run_tests
-      
-
